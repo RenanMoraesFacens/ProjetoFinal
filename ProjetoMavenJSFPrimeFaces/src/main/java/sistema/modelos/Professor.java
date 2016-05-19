@@ -17,7 +17,7 @@ public class Professor implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int codProfessor;
+	private int codigo;
 	private String nome;
 	
 	@OneToMany(mappedBy="professor")
@@ -31,14 +31,14 @@ public class Professor implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Professor [codProfessor=" + codProfessor + ", nome=" + nome + "]";
+		return "Professor [codigo=" + codigo + ", nome=" + nome + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + codProfessor;
+		result = prime * result + codigo;
 		return result;
 	}
 	@Override
@@ -55,22 +55,26 @@ public class Professor implements Serializable{
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (codProfessor != other.codProfessor)
+		if (codigo != other.codigo)
 			return false;
 		return true;
 	}
-	public int getCodProfessor() {
-		return codProfessor;
+	public int getCodigo() {
+		return codigo;
 	}
-	public void setCodProfessor(int codProfessor) {
-		this.codProfessor = codProfessor;
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
-	public String getnome() {
+	
+	
+	public String getNome() {
 		return nome;
 	}
-	public void setnome(String nome) {
+
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public List<Disciplina> getDisciplinas() {
 		return disciplinas;
 	}
@@ -83,4 +87,6 @@ public class Professor implements Serializable{
 	public Professor(String nome) {
 		super();
 		this.nome = nome;
-	}}
+	}
+	
+}

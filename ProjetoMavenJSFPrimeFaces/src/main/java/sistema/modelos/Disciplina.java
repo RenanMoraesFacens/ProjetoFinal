@@ -1,6 +1,7 @@
 package sistema.modelos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,12 +18,15 @@ public class Disciplina implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int codDisciplina;
+	private int codigo;
 	private String nome;
+	
 	@ManyToOne
 	private Professor professor;
+	
 	@OneToMany(mappedBy="disciplina")
 	private List<Prova> provas = new ArrayList<Prova>();
+	
 	@OneToMany(mappedBy="disciplina")
 	private List<Conteudo> conteudos = new ArrayList<Conteudo>();
 	
@@ -38,12 +42,14 @@ public class Disciplina implements Serializable {
 		
 	}
 
-	public int getCodDisciplina() {
-		return codDisciplina;
+	
+
+	public int getCodigo() {
+		return codigo;
 	}
 
-	public void setCodDisciplina(int codDisciplina) {
-		this.codDisciplina = codDisciplina;
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getnome() {
@@ -93,7 +99,7 @@ public class Disciplina implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + codDisciplina;
+		result = prime * result + codigo;
 		result = prime * result + ((conteudos == null) ? 0 : conteudos.hashCode());
 		result = prime * result + ((professor == null) ? 0 : professor.hashCode());
 		result = prime * result + ((provas == null) ? 0 : provas.hashCode());
@@ -114,7 +120,7 @@ public class Disciplina implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (codDisciplina != other.codDisciplina)
+		if (codigo != other.codigo)
 			return false;
 		if (conteudos == null) {
 			if (other.conteudos != null)
@@ -136,7 +142,7 @@ public class Disciplina implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Disciplina [codDisciplina=" + codDisciplina + ", nome=" + nome + ", professor=" + professor
+		return "Disciplina [codDisciplina=" + codigo + ", nome=" + nome + ", professor=" + professor
 				+ ", provas=" + provas + ", conteudos=" + conteudos + "]";
 	}
 
