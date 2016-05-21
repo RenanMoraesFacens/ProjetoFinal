@@ -9,6 +9,10 @@
 		<class>sistema.modelos.Pergunta</class>
 		<class>sistema.modelos.Prova</class>
 		<class>sistema.modelos.Conteudo</class>
+		<class>sistema.modelos.Alternativa</class>
+		<class>sistema.modelos.Dissertativa</class>
+		<class>sistema.modelos.Verdadeiro</class>
+		
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DBTeste;create=true"/>
 			<property name="javax.persistence.jdbc.user" value="app"/>

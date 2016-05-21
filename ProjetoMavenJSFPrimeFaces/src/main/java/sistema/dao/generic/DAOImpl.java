@@ -39,16 +39,20 @@ public abstract class DAOImpl <T, I extends Serializable> {
 
 	}
 
+	public T getById(Class<T> classe, I pk) { 
+		 
+		 
+				try { 
+					T t = getEntityManager().find(classe, pk); 
+				getEntityManager().refresh(t); 
+				return t; 
+			} catch (NoResultException e) { 
+					return null; 
+				} 
+		
+		 
+			} 
 
-	public T getById(Class<T> classe, I pk) {
-
-		try {
-			return getEntityManager().find(classe, pk);
-		} catch (NoResultException e) {
-			return null;
-		}
-
-	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> getAll(Class<T> classe) {

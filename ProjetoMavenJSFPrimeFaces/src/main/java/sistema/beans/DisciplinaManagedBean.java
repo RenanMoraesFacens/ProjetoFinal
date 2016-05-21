@@ -2,14 +2,21 @@ package sistema.beans;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
 
 import org.primefaces.event.RowEditEvent;
 
+import sistema.beans.datamodel.DisciplinaDataModel;
 import sistema.modelos.Aluno;
+import sistema.modelos.Conteudo;
 import sistema.modelos.Professor;
 import sistema.modelos.Disciplina;
+import sistema.modelos.Fornecedor;
+import sistema.modelos.Produto;
 import sistema.service.ProfessorService;
 import sistema.service.DisciplinaService;
 
@@ -21,7 +28,16 @@ public class DisciplinaManagedBean {
 	private Professor professor;
 	private DisciplinaService prodService = new DisciplinaService();
 	private ProfessorService fornService = new ProfessorService();
+	private Disciplina disciplinaSelecionada;
 	private List<Disciplina> disciplinas;
+
+	public Disciplina getDisciplinaSelecionada() {
+		return disciplinaSelecionada;
+	}
+
+	public void setDisciplinaSelecionada(Disciplina disciplinaSelecionada) {
+		this.disciplinaSelecionada = disciplinaSelecionada;
+	}
 
 	public void salvar() {
 		professor.addDisciplina(disciplina);
@@ -36,6 +52,13 @@ public class DisciplinaManagedBean {
 		professor = null;
 
 	}
+	
+	public DataModel<Disciplina> getDisciplinas() {
+		if (disciplinas == null)
+			disciplinas = prodService.getDisciplinas();
+
+		return new DisciplinaDataModel(disciplinas);
+	}
 
 	public List<Professor> getProfessores() {
 		return fornService.getProfessores();
@@ -47,8 +70,21 @@ public class DisciplinaManagedBean {
 	}
 
 	public void remove(Disciplina disciplina) {
-		prodService.remover(disciplina);
-		disciplinas.remove(disciplina);
+		if (prodService.pesquisarConteudosDisciplina(disciplina).size() > 0) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Não é possível remover disciplina",
+					"Disciplina possui conteudos!"));
+		} else {
+			prodService.remover(disciplina);
+			disciplinas.remove(disciplina);
+		}
+	}
+	
+	public List<Conteudo> getConteudosDisciplina() {
+		if (disciplinaSelecionada != null) {
+			return prodService.pesquisarConteudosDisciplina(disciplinaSelecionada);
+		} else
+			return null;
 	}
 
 	public void setProfessor(Professor professor) {
@@ -63,12 +99,6 @@ public class DisciplinaManagedBean {
 		this.disciplina = disciplina;
 	}
 
-	public List<Disciplina> getDisciplinas() {
-		if (disciplinas == null)
-			disciplinas = prodService.getDisciplinas();
-
-		return disciplinas;
-	}
 
 	public void onRowEdit(RowEditEvent event) {
 

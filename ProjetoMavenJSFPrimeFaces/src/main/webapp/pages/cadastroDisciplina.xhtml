@@ -19,6 +19,8 @@
 
 		<p:panelGrid columns="2">
 
+        <p:outputLabel value="#{msg['pages.cadastroDisciplina.nome']}" />
+			<p:inputText value="#{disciplinaManagedBean.disciplina.nome}" />
 
 			<p:outputLabel value="#{msg['pages.cadastroDisciplina.professor.nome']}" />
 			<p:selectOneMenu value="#{disciplinaManagedBean.professor}"
@@ -33,57 +35,68 @@
 			update=":formDisciplinas, :formTableDisciplinas" />
 	</h:form>
 
-    <h3><p:outputLabel value="#{msg['pages.cadastroDisciplina.tableTitle']}" /> </h3>
-    
+     <h3><p:outputLabel value="#{msg['pages.cadastroDisciplina.tableTitle']}"/></h3>
 	<h:form id="formTableDisciplinas">
 	
+	    <p:growl id="growl" showDetail="true" />
 	
-	    
-		<p:dataTable value="#{disciplinaManagedBean.disciplinas}" var="prod"
-			editable="true" id="tableDisciplinas">
+		<p:dataTable value="#{disciplinaManagedBean.disciplinas}" var="f"
+			editable="true" id="tableConteudos"
+			selectionMode="single" selection="#{disciplinaManagedBean.disciplinaSelecionada}"  rowKey="#{f.codigo}"
+			>
 
-            <p:ajax event="rowEdit" listener="#{disciplinaManagedBean.onRowEdit}" update="tableDisciplinas"/>
+		   <p:ajax event="rowSelect"   update=":formTableConteudos" />
+           <p:ajax event="rowUnselect" update=":formTableConteudos" />
+           <p:ajax event="rowEdit"     listener="#{disciplinaManagedBean.onRowEdit}"     update=":formTableConteudos" /> 
 
 			<p:column headerText="#{msg['pages.cadastroDisciplina.codigo']}">
-				<h:outputText value="#{prod.codigo}" />
+				<h:outputText value="#{f.codigo}" />
 			</p:column>
 
-
-
-			<p:column headerText="#{msg['pages.cadastroDisciplina.professor.nome']}">
+			<p:column headerText="#{msg['pages.cadastroDisciplina.nome']}">
 				<p:cellEditor>
 					<f:facet name="output">
-						<p:outputLabel value="#{prod.professor.nome}" />
+						<p:outputLabel value="#{f.nome}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:selectOneMenu value="#{prod.professor}"
-							converter="converterProfessor" style="width:100%">
-							<f:selectItem itemValue="" itemLabel="#{msg['pages.cadastroDisciplina.professor.msg']}" />
-							<f:selectItems value="#{disciplinaManagedBean.professores}"
-								var="aux" itemValue="#{aux}" itemLabel="#{aux.nome}" />
-						</p:selectOneMenu>
-
+						<p:inputText id="modelInput" value="#{f.nome}"
+							style="width:100%" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-
 			<p:column style="width:70px" headerText="#{msg['pages.commus.form.opcoes']}">
-
-
-
 					<p:rowEditor />
-					
 					<p:commandLink id="remover" styleClass="ui-icon ui-icon-trash"
 						style="text-align:center"
-						actionListener="#{disciplinaManagedBean.remove(prod)}"
+						actionListener="#{disciplinaManagedBean.remove(f)}"
 						update=":formTableDisciplinas" />
-
-
-
 			</p:column>
+
 		</p:dataTable>
 	</h:form>
+    	
+	
+	<br/>
+    <h:form id="formTableConteudos">
+	    <h3><p:outputLabel value="#{msg['pages.cadastroDisciplina.conteudosDisciplina']}: #{disciplinaManagedBean.disciplinaSelecionada.nome}" /></h3>
+		<p:dataTable value="#{disciplinaManagedBean.conteudosDisciplina}" var="prod"	id="tableConteudos">
+
+			<p:column headerText="#{msg['pages.cadastroDisciplina.conteudo.codigo']}">
+				<h:outputText value="#{prod.codigo}" />
+			</p:column>
+
+			<p:column headerText="#{msg['pages.cadastroDisciplina.conteudo.nome']}">
+						<p:outputLabel value="#{prod.nome}" />
+			</p:column>
+
+			<p:column headerText="#{msg['pages.cadastroDisciplina.conteudo.ordem']}">
+				<h:outputText value="#{prod.ordem}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+	
 
 	</ui:define>
 </ui:composition>

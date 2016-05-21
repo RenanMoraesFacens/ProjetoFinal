@@ -20,7 +20,7 @@ public class Conteudo implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int codConteudo;
+	private int codigo;
 	private String nome;
 	private int ordem;
 	
@@ -76,4 +76,43 @@ public class Conteudo implements Serializable {
 		provas.add(prova);
 		
 	}
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + codigo;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ordem;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Conteudo other = (Conteudo) obj;
+		if (codigo != other.codigo)
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (ordem != other.ordem)
+			return false;
+		return true;
+	}
+	
+	
+	
+	
 }
