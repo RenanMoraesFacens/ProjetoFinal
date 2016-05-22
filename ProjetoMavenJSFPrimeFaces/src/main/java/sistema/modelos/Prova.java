@@ -2,6 +2,7 @@ package sistema.modelos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,16 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Prova implements Serializable{
 
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int codProva;
+	private int codigo;
+	
+	@Temporal(TemporalType.DATE)
 	private Date dataAplicacao;
+	
 	private String curso;
 	private String faculdade;
 	private int nivel;
@@ -36,6 +43,14 @@ public class Prova implements Serializable{
 	
 	@ManyToMany(mappedBy="provas")
 	private List<Conteudo> conteudos = new ArrayList<Conteudo>();
+	
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
 	
 	public Date getDataAplicacao() {
 		return dataAplicacao;
