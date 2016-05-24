@@ -2,7 +2,6 @@ package sistema.modelos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +23,15 @@ public class Prova implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int codigo;
+	private String numperguntas = "";
 	
+	public String getNumperguntas() {
+		return numperguntas;
+	}
+	public void setNumperguntas(String numperguntas) {
+		this.numperguntas = numperguntas;
+	}
+
 	@Temporal(TemporalType.DATE)
 	private Date dataAplicacao;
 	
@@ -35,6 +42,7 @@ public class Prova implements Serializable{
 	private double tempo;
 	private String turma;
 	
+	
 	@ManyToOne
 	private Disciplina disciplina;
 	
@@ -43,6 +51,12 @@ public class Prova implements Serializable{
 	
 	@ManyToMany(mappedBy="provas")
 	private List<Conteudo> conteudos = new ArrayList<Conteudo>();
+	
+	public void ConcatenaString(String aux)
+	{
+		numperguntas = numperguntas + ", " + aux; 
+		
+	}
 	
 	public int getCodigo() {
 		return codigo;
