@@ -23,15 +23,7 @@ public class Prova implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int codigo;
-	private String numperguntas = "";
 	
-	public String getNumperguntas() {
-		return numperguntas;
-	}
-	public void setNumperguntas(String numperguntas) {
-		this.numperguntas = numperguntas;
-	}
-
 	@Temporal(TemporalType.DATE)
 	private Date dataAplicacao;
 	
@@ -52,11 +44,6 @@ public class Prova implements Serializable{
 	@ManyToMany(mappedBy="provas")
 	private List<Conteudo> conteudos = new ArrayList<Conteudo>();
 	
-	public void ConcatenaString(String aux)
-	{
-		numperguntas = numperguntas + ", " + aux; 
-		
-	}
 	
 	public int getCodigo() {
 		return codigo;
@@ -64,7 +51,6 @@ public class Prova implements Serializable{
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-
 	
 	public Date getDataAplicacao() {
 		return dataAplicacao;
@@ -132,5 +118,38 @@ public class Prova implements Serializable{
 		conteudos.add(conteudo);
 		
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + codigo;
+		result = prime * result + ((faculdade == null) ? 0 : faculdade.hashCode());
+		result = prime * result + ((turma == null) ? 0 : turma.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Prova other = (Prova) obj;
+		if (codigo != other.codigo)
+			return false;
+		if (faculdade == null) {
+			if (other.faculdade != null)
+				return false;
+		} else if (!faculdade.equals(other.faculdade))
+			return false;
+		if (turma == null) {
+			if (other.turma != null)
+				return false;
+		} else if (!turma.equals(other.turma))
+			return false;
+		return true;
+	}
+	
 	
 }

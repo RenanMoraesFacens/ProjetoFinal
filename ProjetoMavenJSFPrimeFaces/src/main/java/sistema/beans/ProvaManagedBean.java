@@ -12,7 +12,9 @@ import sistema.modelos.Conteudo;
 import sistema.modelos.Disciplina;
 import sistema.modelos.Pergunta;
 import sistema.modelos.Prova;
+import sistema.service.ConteudoService;
 import sistema.service.DisciplinaService;
+import sistema.service.PerguntaService;
 import sistema.service.ProvaService;
 
 @ManagedBean(name = "provaManagedBean")
@@ -23,39 +25,25 @@ public class ProvaManagedBean {
 	private Prova prova = new Prova();
 	private Disciplina disciplina;
 	private ProvaService prodService = new ProvaService();
+	private List<Conteudo> conteudosselecionados;
+	private List<Conteudo> conteudos;
+	private ConteudoService contService = new ConteudoService();
+	private List<Pergunta> perguntas;
 	private DisciplinaService fornService = new DisciplinaService();
 	private List<Prova> provas;
-	Calendar c = Calendar.getInstance();
-	double tempototal = 0;
+	
 	
 	public void salvar() {
 		
+		addConteudos();
+		
 		disciplina.addProva(prova);
 		prova.setDisciplina(disciplina);
-		
-		for(Conteudo cont: disciplina.getConteudos())
-		{
-			for(Pergunta p: cont.getPerguntas())
-			{
-		        prova.addPergunta(p);
-				prova.ConcatenaString("pergunta");
-				tempototal = tempototal + p.getTempo();
-			}
-		}
-
-		prova.setTempo(tempototal);
-		tempototal = 0;
-		
-		prova.setDataAplicacao(c.getTime());
-		
-		
 		
 		prova = prodService.salvar(prova);
 
 		if (provas != null)
 			provas.add(prova);
-		
-		
 		
 		prova = new Prova();
 		disciplina = null;
@@ -67,6 +55,16 @@ public class ProvaManagedBean {
 
 	}
 
+	public List<Conteudo> getConteudos() {
+		return contService.getConteudos();
+
+	}
+	
+	public void setConteudos(List<Conteudo> conteudos) {
+		this.conteudos = conteudos;
+	}
+
+ 
 	public Disciplina getDisciplina() {
 		return disciplina;
 	}
@@ -99,6 +97,23 @@ public class ProvaManagedBean {
 
 		Prova p = ((Prova) event.getObject());
 		prodService.alterar(p);
+	}
+	
+	public List<Conteudo> getConteudosselecionados() {
+		return conteudosselecionados;
+	}
+
+	public void setConteudosselecionados(List<Conteudo> conteudosselecionados) {
+		this.conteudosselecionados = conteudosselecionados;
+	}
+	
+	public void addConteudos()
+	{
+		
+		for (int i = 0; i < conteudosselecionados.size(); i++) 
+		{
+			prova.addConteudo(conteudosselecionados.get(i));
+		}
 	}
 
 }

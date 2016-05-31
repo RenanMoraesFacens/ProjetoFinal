@@ -29,7 +29,23 @@
 					itemValue="#{aux}" itemLabel="#{aux.nome}" />
 			</p:selectOneMenu>
 
-
+            <p:outputLabel value="#{msg['pages.cadastroProva.conteudos']}" />
+        <p:selectManyMenu id="perguntas" 
+        value="#{provaManagedBean.conteudosselecionados}" 
+        converter="converterConteudo"
+                          var="sc" filter="true" filterMatchMode="contains" showCheckbox="true">
+            <f:selectItems value="#{provaManagedBean.conteudos}" var="perg" 
+            itemLabel="#{cont.nome}" itemValue="#{cont}" />
+ 
+            <p:column>
+                <h:outputText styleClass="ui-theme ui-theme-" />
+            </p:column>
+ 
+            <p:column>
+                <h:outputText value="#{sc.nome}" />
+            </p:column>
+        </p:selectManyMenu>
+            
 			<p:outputLabel value="#{msg['pages.cadastroProva.curso']}" />
 			<p:inputText value="#{provaManagedBean.prova.curso}" />
 			
@@ -71,23 +87,9 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-
-
-			<p:column headerText="#{msg['pages.cadastroProva.disciplina.nome']}">
-				<p:cellEditor>
-					<f:facet name="output">
-						<p:outputLabel value="#{prod.disciplina.nome}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu value="#{prod.disciplina}"
-							converter="converterDisciplina" style="width:100%">
-							<f:selectItem itemValue="" itemLabel="#{msg['pages.cadastroProva.disciplina.msg']}" />
-							<f:selectItems value="#{provaManagedBean.disciplinas}"
-								var="aux" itemValue="#{aux}" itemLabel="#{aux.nome}" />
-						</p:selectOneMenu>
-
-					</f:facet>
-				</p:cellEditor>
+			
+			<p:column headerText="#{msg['pages.cadastroProva.tempo']}">
+				<h:outputText value="#{prod.disciplina}" />
 			</p:column>
 
 			<p:column headerText="#{msg['pages.cadastroProva.curso']}">
@@ -120,9 +122,6 @@
 				<h:outputText value="#{prod.dataAplicacao}" />
 			</p:column>
 			
-			<p:column headerText="#{msg['pages.cadastroProva.numperguntas']}">
-				<h:outputText value="#{prod.numperguntas}" />
-			</p:column>
 			
 			<p:column headerText="#{msg['pages.cadastroProva.tempo']}">
 				<h:outputText value="#{prod.tempo}" />
