@@ -46,6 +46,9 @@
             </p:column>
         </p:selectManyMenu>
             
+             <p:outputLabel for="button" value="Data:" />
+             <p:calendar id="button" value="#{provaManagedBean.prova.dataAplicacao}" showOn="button" />
+            
 			<p:outputLabel value="#{msg['pages.cadastroProva.curso']}" />
 			<p:inputText value="#{provaManagedBean.prova.curso}" />
 			
@@ -54,6 +57,9 @@
 			
 			<p:outputLabel value="#{msg['pages.cadastroProva.nivel']}" />
 			<p:inputText value="#{provaManagedBean.prova.nivel}" />
+			
+			<p:outputLabel value="#{msg['pages.cadastroProva.quantidade']}" />
+			<p:inputText value="#{provaManagedBean.prova.quantidade}" />
 
 
 		</p:panelGrid>
@@ -88,8 +94,8 @@
 				</p:cellEditor>
 			</p:column>
 			
-			<p:column headerText="#{msg['pages.cadastroProva.tempo']}">
-				<h:outputText value="#{prod.disciplina}" />
+			<p:column headerText="#{msg['pages.cadastroProva.disciplina.nome']}">
+				<h:outputText value="#{prod.disciplina.nome}" />
 			</p:column>
 
 			<p:column headerText="#{msg['pages.cadastroProva.curso']}">
@@ -117,14 +123,19 @@
 			<p:column headerText="#{msg['pages.cadastroProva.nivel']}">
 				<h:outputText value="#{prod.nivel}" />
 			</p:column>
-			
-		<p:column headerText="#{msg['pages.cadastroProva.dataAplicacao']}">
-				<h:outputText value="#{prod.dataAplicacao}" />
-			</p:column>
-			
+		
+			<p:column headerText="#{msg['pages.cadastroProva.dataAplicacao']}">
+            <h:outputText value="#{prod.dataAplicacao}">
+                <f:convertDateTime pattern="dd/MM/yyyy" />
+            </h:outputText>
+            </p:column>
 			
 			<p:column headerText="#{msg['pages.cadastroProva.tempo']}">
 				<h:outputText value="#{prod.tempo}" />
+			</p:column>
+			
+			<p:column headerText="#{msg['pages.cadastroProva.quantidade']}">
+				<h:outputText value="#{prod.quantidade}" />
 			</p:column>
 			
 

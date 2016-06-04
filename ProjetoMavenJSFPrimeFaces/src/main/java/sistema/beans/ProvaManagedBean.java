@@ -29,14 +29,18 @@ public class ProvaManagedBean {
 	private List<Conteudo> conteudos;
 	private ConteudoService contService = new ConteudoService();
 	private List<Pergunta> perguntas;
+	private double tempo = 0;
+	private PerguntaService pergService = new PerguntaService();
 	private DisciplinaService fornService = new DisciplinaService();
 	private List<Prova> provas;
-	
+
 	
 	public void salvar() {
 		
 		addConteudos();
-		
+		addPerguntas();
+		prova.setTempo(tempo);
+		tempo = 0;
 		disciplina.addProva(prova);
 		prova.setDisciplina(disciplina);
 		
@@ -49,7 +53,37 @@ public class ProvaManagedBean {
 		disciplina = null;
 
 	}
+	
+    public void addPerguntas()
+    {
+    	int cont = 0;
+    	perguntas = getPerguntas();
+    	
+    	for(Pergunta p: perguntas)
+    	{
+    		for(Conteudo c: conteudosselecionados)
+    		{
+    			if(p.getConteudo().getNome() == c.getNome())
+    			{
+    				if(p.getNivel() == prova.getNivel())
+    				{
+    					if(cont < prova.getQuantidade())
+    					{
+    					  prova.addPergunta(p);
+    					  tempo = tempo + p.getTempo();
+    					  cont++;
+    					}
+    				}
+    			}
+    		}
+    	}
+    }
+    
+    public List<Pergunta> getPerguntas() {
+		return pergService.getPerguntas();
 
+	}
+	
 	public List<Disciplina> getDisciplinas() {
 		return fornService.getDisciplinas();
 
