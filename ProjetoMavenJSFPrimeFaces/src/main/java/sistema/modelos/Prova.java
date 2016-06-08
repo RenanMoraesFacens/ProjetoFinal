@@ -28,6 +28,8 @@ public class Prova implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date dataAplicacao;
 	
+	private String nomeprova;
+	
 	private String curso;
 	private String faculdade;
 	private int nivel;
@@ -58,6 +60,13 @@ public class Prova implements Serializable{
 	}
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}
+	
+	public String getNomeprova() {
+		return nomeprova;
+	}
+	public void setNomeprova(String nomeprova) {
+		this.nomeprova = nomeprova;
 	}
 	
 	public Date getDataAplicacao() {
@@ -132,6 +141,7 @@ public class Prova implements Serializable{
 		int result = 1;
 		result = prime * result + codigo;
 		result = prime * result + ((faculdade == null) ? 0 : faculdade.hashCode());
+		result = prime * result + ((nomeprova == null) ? 0 : nomeprova.hashCode());
 		result = prime * result + ((turma == null) ? 0 : turma.hashCode());
 		return result;
 	}
@@ -151,6 +161,11 @@ public class Prova implements Serializable{
 				return false;
 		} else if (!faculdade.equals(other.faculdade))
 			return false;
+		if (nomeprova == null) {
+			if (other.nomeprova != null)
+				return false;
+		} else if (!nomeprova.equals(other.nomeprova))
+			return false;
 		if (turma == null) {
 			if (other.turma != null)
 				return false;
@@ -158,6 +173,7 @@ public class Prova implements Serializable{
 			return false;
 		return true;
 	}
+	
 	
 	
 }

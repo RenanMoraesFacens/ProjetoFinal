@@ -34,11 +34,14 @@ public class ProvaManagedBean {
 	private DisciplinaService fornService = new DisciplinaService();
 	private List<Prova> provas;
 
+
 	
 	public void salvar() {
 		
 		addConteudos();
 		addPerguntas();
+		prova.setNomeprova(prova.getFaculdade()+ " " + prova.getTurma());
+		
 		prova.setTempo(tempo);
 		tempo = 0;
 		disciplina.addProva(prova);
