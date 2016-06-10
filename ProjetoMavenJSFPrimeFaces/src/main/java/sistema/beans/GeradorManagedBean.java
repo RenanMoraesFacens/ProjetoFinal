@@ -13,8 +13,11 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import sistema.modelos.Alternativa;
+import sistema.modelos.Dissertativa;
 import sistema.modelos.Pergunta;
 import sistema.modelos.Prova;
+import sistema.modelos.Verdadeiro;
 import sistema.service.ProvaService;
 
 @ManagedBean(name = "geradorManagedBean")
@@ -58,6 +61,7 @@ public class GeradorManagedBean {
           PdfWriter.getInstance(pdf, new FileOutputStream("C:\\prova"+ prova.getCodigo() + ".pdf"));
           pdf.open();
           
+          pdf.add(new Paragraph("                                                                       Avaliação" ));
           pdf.add(new Paragraph("Faculdade: " + prova.getFaculdade()));
           pdf.add(new Paragraph("Curso: " + prova.getCurso()));
           pdf.add(new Paragraph("Turma: " + prova.getTurma()));
@@ -81,6 +85,76 @@ public class GeradorManagedBean {
               pdf.add(Chunk.NEWLINE);
               
           }
+          
+          pdf.add(Chunk.NEWLINE);
+          pdf.add(Chunk.NEWLINE);
+          pdf.add(new Paragraph("      Boa Sorte"));
+		}
+		catch(DocumentException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		catch(IOException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		pdf.close();
+	}
+	
+	public void GeradorGabaritoPDF()
+	{
+		Document pdf = new Document();
+		
+		try
+		{
+          PdfWriter.getInstance(pdf, new FileOutputStream("C:\\gabarito"+ prova.getCodigo() + ".pdf"));
+          pdf.open();
+          
+          pdf.add(new Paragraph("                                                                       Gabarito" ));
+          pdf.add(new Paragraph("Faculdade: " + prova.getFaculdade()));
+          pdf.add(new Paragraph("Curso: " + prova.getCurso()));
+          pdf.add(new Paragraph("Turma: " + prova.getTurma()));
+          pdf.add(new Paragraph("Data: " + prova.getDataAplicacao().getDate() 
+        		          		   +"/"+(prova.getDataAplicacao().getMonth()+1)+"/"+(prova.getDataAplicacao().getYear()-100))); 
+
+          pdf.add(new Paragraph("Disciplina : " + prova.getDisciplina().getNome()));
+          
+          
+          pdf.add(Chunk.NEWLINE);
+          pdf.add(Chunk.NEWLINE);
+          pdf.add(Chunk.NEWLINE);
+          
+          
+          for(int i = 0; i < prova.getPerguntas().size(); i++)
+          {
+        	  if(prova.getPerguntas().get(i) instanceof Alternativa)
+        	  {
+        		  Alternativa alt = (Alternativa)prova.getPerguntas().get(i);
+        	     pdf.add(new Paragraph(""+(i + 1)+") " +  
+                    alt.getRespostaalt())); 
+        	     pdf.add(Chunk.NEWLINE);
+                 pdf.add(Chunk.NEWLINE);
+        	  }
+        	  
+        	  if(prova.getPerguntas().get(i) instanceof Dissertativa)
+        	  {
+        		  Dissertativa dis = (Dissertativa)prova.getPerguntas().get(i);
+        	     pdf.add(new Paragraph(""+(i + 1)+") " +  
+                    dis.getRespostadis())); 
+        	     pdf.add(Chunk.NEWLINE);
+                 pdf.add(Chunk.NEWLINE);
+        	  }
+        	  
+        	  if(prova.getPerguntas().get(i) instanceof Verdadeiro)
+        	  {
+        		 Verdadeiro verd = (Verdadeiro)prova.getPerguntas().get(i);
+        	     pdf.add(new Paragraph(""+(i + 1)+") " +  
+                    verd.getRespostavf())); 
+        	     pdf.add(Chunk.NEWLINE);
+                 pdf.add(Chunk.NEWLINE);
+        	  }
+          }
+          
 		}
 		catch(DocumentException e)
 		{

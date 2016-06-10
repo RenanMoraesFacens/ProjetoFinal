@@ -1,6 +1,7 @@
 package sistema.beans;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -62,6 +63,9 @@ public class ProvaManagedBean {
     	int cont = 0;
     	perguntas = getPerguntas();
     	
+    	Collections.shuffle(perguntas); 
+    	Collections.reverse(perguntas); 
+
     	for(Pergunta p: perguntas)
     	{
     		for(Conteudo c: conteudosselecionados)
@@ -77,9 +81,40 @@ public class ProvaManagedBean {
     					  cont++;
     					}
     				}
+    				
+    				
     			}
     		}
     	}
+    	
+    	if(cont < prova.getQuantidade()) 
+		{ 
+ 			int resto = 0; 
+ 			 
+ 			resto = prova.getQuantidade() - cont; 
+ 			 
+ 			for(int i = 0; i < resto; i++) 
+ 			{ 
+ 				for(int j = 0; j < perguntas.size(); j++) 
+ 				{	
+ 					for(Conteudo c: conteudosselecionados)
+ 					{
+ 						if(perguntas.get(j).getConteudo().getNome() == c.getNome())
+ 						{
+ 				           if(perguntas.get(j).getNivel() < prova.getNivel() && !prova.getPerguntas().contains(perguntas.get(j))) 
+ 				           { 
+ 					         prova.addPergunta(perguntas.get(j)); 
+ 					         tempo = tempo + perguntas.get(j).getTempo();
+ 				           } 
+ 				
+ 						}      
+ 					}
+ 			    }
+ 			} 
+ 		} 
+
+    	
+    	
     }
     
     public List<Pergunta> getPerguntas() {

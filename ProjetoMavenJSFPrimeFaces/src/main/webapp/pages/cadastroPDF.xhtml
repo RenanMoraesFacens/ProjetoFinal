@@ -28,6 +28,8 @@
 		</p:panelGrid>
 		<p:commandButton value="#{msg['pages.comuns.form.btnGerar']}" action="#{geradorManagedBean.GeradorPDF}"
 			update=":formProvas" />
+		<p:commandButton value="#{msg['pages.comuns.form.btnGerarGabarito']}" action="#{geradorManagedBean.GeradorGabaritoPDF}"
+			update=":formProvas" />
 	</h:form>
 
 	</ui:define>
